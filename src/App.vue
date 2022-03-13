@@ -39,8 +39,11 @@ onMounted(()=>{
 </script>
 
 <template>
-  <!-- <img v-for="item in youtubeItems" :key="item.etag" :src="item.snippet.thumbnails.high.url" alt=""> -->
-  <instagramItemCardVue v-for="item in instagramItems" :key="item.id" :item="item" />
+  <div class="container">
+    <div class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14">
+      <instagramItemCardVue v-for="item in instagramItems" :key="item.id" :item="item" />
+    </div>
+  </div>
 </template>
 
 <style>
