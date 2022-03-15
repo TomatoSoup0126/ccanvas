@@ -39,7 +39,7 @@ onMounted(()=>{
 </script>
 
 <template>
-  <div class="container">
+  <div class="mx-auto">
     <div class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14">
       <instagramItemCardVue v-for="item in instagramItems" :key="item.id" :item="item" />
     </div>
