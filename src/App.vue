@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import instagramItemCardVue from './components/instagramItemCard.vue';
 import axios from "axios"
-import { onMounted, ref } from "vue"
+import { onMounted, ref, computed } from "vue"
 
 let youtubeItems = ref([])
 let instagramItems = ref([])
+let lightboxIndex = ref(0)
+let showLightbox = ref(false)
+
+const items = computed(() => {
+  return instagramItems.value.map(item => item.media_url)
+})
 
 async function fetchPlayListItems() {
   const { data } = await axios({
@@ -31,6 +37,16 @@ async function fetchInstagramData() {
   instagramItems.value.splice(instagramItems.value.length - 1, 1)
 }
 
+function handleShowLightBox(index) {
+  console.log('get index', index)
+  lightboxIndex.value = index
+  showLightbox.value = true
+}
+
+function handleHideLightBox() {
+  showLightbox.value = false
+}
+
 onMounted(()=>{
   // fetchPlayListItems()
   fetchInstagramData()
@@ -44,11 +60,19 @@ onMounted(()=>{
       class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14 gallery"
     >
       <instagramItemCardVue 
-        v-for="item in instagramItems"
+        v-for="(item, index) in instagramItems"
         :key="item.id"
         :item="item"
+        :index="index"
+        @show-image="handleShowLightBox"
       />
     </div>
+    <vue-easy-lightbox
+      :visible="showLightbox"
+      :imgs="items"
+      :index="lightboxIndex"
+      @hide="handleHideLightBox"
+    ></vue-easy-lightbox>
   </div>
 </template>
 

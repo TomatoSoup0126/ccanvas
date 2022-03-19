@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
-const props = defineProps<{ item: object }>()
+const props = defineProps<{ 
+  item: object,
+  index: Number
+}>()
+
+const emit = defineEmits(['showImage'])
 
 const title = computed(() => {
   return props.item.caption ? props.item.caption.split('\n\n')[0] : ''
@@ -27,7 +32,7 @@ const varCss = computed(() => {
   <div
     class="w-70% h-50 sm:w-25% sm:h-70vh rounded-md bg-cover bg-center bg-no-repeat snap-center shrink-0 relative bg-blur cursor-pointer no-underline"
     :style="varCss"
-    target="_blank"
+    @click="$emit('showImage', index)"
   >
     <div class="relative top-0 left-0 info-block flex-col justify-center text-white">
       <div class="px-2">
