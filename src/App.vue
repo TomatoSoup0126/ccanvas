@@ -40,8 +40,14 @@ onMounted(()=>{
 
 <template>
   <div class="mx-auto">
-    <div class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14">
-      <instagramItemCardVue v-for="item in instagramItems" :key="item.id" :item="item" />
+    <div
+      class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14 gallery"
+    >
+      <instagramItemCardVue 
+        v-for="item in instagramItems"
+        :key="item.id"
+        :item="item"
+      />
     </div>
   </div>
 </template>
@@ -54,5 +60,9 @@ onMounted(()=>{
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.gallery::-webkit-scrollbar {
+  display: none;
 }
 </style>

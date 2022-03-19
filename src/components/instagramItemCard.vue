@@ -24,25 +24,23 @@ const varCss = computed(() => {
 </script>
 
 <template>
-  <a
-    class="w-70% h-50 sm:w-25% sm:h-50 rounded-md bg-cover bg-center bg-no-repeat snap-center shrink-0 relative bg-blur cursor-pointer no-underline"
+  <div
+    class="w-70% h-50 sm:w-25% sm:h-70vh rounded-md bg-cover bg-center bg-no-repeat snap-center shrink-0 relative bg-blur cursor-pointer no-underline"
     :style="varCss"
-    :href="youtubeLink"
     target="_blank"
   >
     <div class="relative top-0 left-0 info-block flex-col justify-center text-white">
       <div class="px-2">
         {{ title }}
       </div>
-      <div class="w-12 h-12 mx-auto mt-1">
+      <!-- <div class="w-12 h-12 mx-auto mt-1">
         <font-awesome-icon :icon="['fab', 'youtube']" size="2x" />
-      </div>
+      </div> -->
     </div>
-  </a>
+  </div>
 </template>
 
 <style scoped>
-/* TODO: SCSS*/
 .bg-blur {
   overflow: hidden;
   background-image: var(--bg-image);
