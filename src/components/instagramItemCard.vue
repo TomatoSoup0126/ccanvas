@@ -7,8 +7,11 @@ const title = computed(() => {
   return props.item.caption ? props.item.caption.split('\n\n')[0] : ''
 })
 
-// TODO: 判斷頻道或影片連結
 const youtubeLink = computed(() => {
+  const isChannelLInk = props.item.caption.includes('🎨')
+  if (isChannelLInk) {
+    return 'https://www.youtube.com/channel/UCv5rNNzvpx302mekaa4yRmQ'
+  }
   return props.item.caption ? props.item.caption.split('\n\n')[1]?.split(' ')[1] : ''
 })
 
