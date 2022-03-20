@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import instagramItemCardVue from './components/instagramItemCard.vue';
 import navbar from './components/navbar.vue'
+import fixedFooter from './components/footer.vue'
 import axios from "axios"
 import { onMounted, ref, computed } from "vue"
 
@@ -57,10 +58,10 @@ onMounted(()=>{
 </script>
 
 <template>
-  <navbar></navbar>
-  <div class="mx-auto mt-16">
+  <navbar />
+  <main class="mx-auto mt-16">
     <div
-      class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14 gallery pt-4"
+      class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
     >
       <instagramItemCardVue 
         v-for="(item, index) in instagramItems"
@@ -90,7 +91,8 @@ onMounted(()=>{
         </div>
       </template>
     </vue-easy-lightbox>
-  </div>
+  </main>
+  <fixed-footer></fixed-footer>
 </template>
 
 <style>

@@ -30,7 +30,7 @@ const varCss = computed(() => {
 
 <template>
   <div
-    class="w-70% sm:w-25% h-70vh rounded-md bg-cover bg-center bg-no-repeat snap-center shrink-0 relative bg-blur cursor-pointer"
+    class="w-70% sm:w-25% h-80vh rounded-md bg-cover bg-center bg-no-repeat snap-center shrink-0 relative bg-blur cursor-pointer"
     :style="varCss"
     @click="$emit('showImage', { index, youtubeLink })"
   >
@@ -38,9 +38,6 @@ const varCss = computed(() => {
       <div class="px-2">
         {{ title }}
       </div>
-      <!-- <div class="w-12 h-12 mx-auto mt-1">
-        <font-awesome-icon :icon="['fab', 'youtube']" size="2x" />
-      </div> -->
     </div>
   </div>
 </template>
