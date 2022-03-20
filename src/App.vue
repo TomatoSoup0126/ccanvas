@@ -7,6 +7,7 @@ let youtubeItems = ref([])
 let instagramItems = ref([])
 let lightboxIndex = ref(0)
 let showLightbox = ref(false)
+let lightboxLink = ref('')
 
 const items = computed(() => {
   return instagramItems.value.map(item => item.media_url)
@@ -37,9 +38,9 @@ async function fetchInstagramData() {
   instagramItems.value.splice(instagramItems.value.length - 1, 1)
 }
 
-function handleShowLightBox(index) {
-  console.log('get index', index)
+function handleShowLightBox({ index, youtubeLink }) {
   lightboxIndex.value = index
+  lightboxLink.value = youtubeLink
   showLightbox.value = true
 }
 
@@ -72,7 +73,21 @@ onMounted(()=>{
       :imgs="items"
       :index="lightboxIndex"
       @hide="handleHideLightBox"
-    ></vue-easy-lightbox>
+    >
+      <template v-slot:prev-btn="{ prev }" />
+      <template v-slot:next-btn="{ next }" />
+      <template v-slot:toolbar="{ toolbarMethods }">
+        <div class="absolute bottom-6 w-100%">
+          <a
+            class="w-12 h-12 mx-auto mt-auto text-white"
+            :href="lightboxLink"
+            target="_blank"
+          >
+            <font-awesome-icon :icon="['fab', 'youtube']" size="2x" />
+          </a> 
+        </div>
+      </template>
+    </vue-easy-lightbox>
   </div>
 </template>
 
@@ -88,5 +103,9 @@ onMounted(()=>{
 
 .gallery::-webkit-scrollbar {
   display: none;
+}
+
+.vel-modal {
+  background: rgba(0,0,0,0.8) !important;
 }
 </style>
