@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import instagramItemCardVue from './components/instagramItemCard.vue';
+import navbar from './components/navbar.vue'
 import axios from "axios"
 import { onMounted, ref, computed } from "vue"
 
@@ -56,9 +57,10 @@ onMounted(()=>{
 </script>
 
 <template>
-  <div class="mx-auto">
+  <navbar></navbar>
+  <div class="mx-auto mt-16">
     <div
-      class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14 gallery"
+      class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto pb-14 gallery pt-4"
     >
       <instagramItemCardVue 
         v-for="(item, index) in instagramItems"
@@ -98,7 +100,6 @@ onMounted(()=>{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 .gallery::-webkit-scrollbar {
