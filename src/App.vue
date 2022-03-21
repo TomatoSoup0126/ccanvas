@@ -11,8 +11,13 @@ let lightboxIndex = ref(0)
 let showLightbox = ref(false)
 let lightboxLink = ref('')
 
+interface item {
+  media_url: string,
+  id: number
+}
+
 const items = computed(() => {
-  return instagramItems.value.map(item => item.media_url)
+  return instagramItems.value.map((item:item) => item.media_url)
 })
 
 async function fetchPlayListItems() {
@@ -66,7 +71,7 @@ onMounted(()=>{
       class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
     >
       <instagramItemCardVue 
-        v-for="(item, index) in instagramItems"
+        v-for="(item, index) in (instagramItems as any)"
         :key="item.id"
         :item="item"
         :index="index"
