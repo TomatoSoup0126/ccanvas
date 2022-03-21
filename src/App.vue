@@ -40,7 +40,10 @@ async function fetchInstagramData() {
   instagramItems.value.splice(instagramItems.value.length - 1, 1)
 }
 
-function handleShowLightBox({ index, youtubeLink }) {
+function handleShowLightBox({ index, youtubeLink }: {
+    index: number;
+    youtubeLink: string;
+}): void {
   lightboxIndex.value = index
   lightboxLink.value = youtubeLink
   showLightbox.value = true
@@ -51,7 +54,6 @@ function handleHideLightBox() {
 }
 
 onMounted(()=>{
-  // fetchPlayListItems()
   fetchInstagramData()
 })
 

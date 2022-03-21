@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
+interface item {
+  caption: string;
+  media_url: string
+}
+
 const props = defineProps<{ 
-  item: object,
+  item: item,
   index: Number
 }>()
 
@@ -21,9 +26,7 @@ const youtubeLink = computed(() => {
 })
 
 const varCss = computed(() => {
-  return {
-    '--bg-image': `url(${props.item.media_url})`
-  }
+  return `--bg-image: url(${props.item.media_url})`
 })
 
 </script>
