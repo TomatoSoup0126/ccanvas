@@ -5,7 +5,6 @@ import fixedFooter from './components/footer.vue'
 import axios from "axios"
 import { onMounted, ref, computed } from "vue"
 
-let youtubeItems = ref([])
 let instagramItems = ref([])
 let lightboxIndex = ref(0)
 let showLightbox = ref(false)
@@ -65,20 +64,20 @@ onMounted(()=>{
 <template>
   <navbar />
   <main class="mx-auto mt-16">
-    <div class="relative w-full">
+    <div class="relative w-full flex">
       <button
         @click="scroll('next')"
-        class="hidden sm:block absolute top-50% right-2 z-99 h-10 w-10 rounded-full bg-white border-none cursor-pointer">
+        class="hidden sm:block absolute top-50% right-2 z-99 h-10 w-10 rounded-full bg-white border-1 border-gray cursor-pointer">
         <font-awesome-icon icon="angle-right" />
       </button>
       <button
         @click="scroll('prev')"
-        class="hidden sm:block absolute top-50% left-2 z-99 h-10 w-10 rounded-full bg-white border-none cursor-pointer">
+        class="hidden sm:block absolute top-50% left-2 z-99 h-10 w-10 rounded-full bg-white border-1 border-gray cursor-pointer">
         <font-awesome-icon icon="angle-left" />
       </button>
       <div
         ref="snapScroller"
-        class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
+        class="w-full sm:w-90% mx-auto flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
       >
         <instagramItemCardVue 
           v-for="(item, index) in (instagramItems as any)"
