@@ -10,6 +10,7 @@ let instagramItems = ref([])
 let lightboxIndex = ref(0)
 let showLightbox = ref(false)
 let lightboxLink = ref('')
+const snapScroller = ref(null)
 
 interface item {
   media_url: string,
@@ -19,19 +20,6 @@ interface item {
 const items = computed(() => {
   return instagramItems.value.map((item:item) => item.media_url)
 })
-
-async function fetchPlayListItems() {
-  const { data } = await axios({
-    url: `${import.meta.env.VITE_YOUTUBE_API_BASE}playlistItems`,
-    params: {
-      key: import.meta.env.VITE_YOUTUBE_KEY,
-      playlistId: import.meta.env.VITE_PLAYLIST_ID,
-      part: 'snippet,contentDetails',
-      maxResults: 50
-    }
-  })
-  youtubeItems.value = data.items
-}
 
 async function fetchInstagramData() {
   const { data } = await axios({
@@ -58,6 +46,16 @@ function handleHideLightBox() {
   showLightbox.value = false
 }
 
+function scroll (type:string):void {
+  const scroller:any = snapScroller
+  const width =  scroller.value.querySelector('div').clientWidth
+  scroller.value.scrollBy({
+    top: 0,
+    left: type === 'next' ? width : -width,
+    behavior : "smooth"
+  })
+}
+
 onMounted(()=>{
   fetchInstagramData()
 })
@@ -67,17 +65,31 @@ onMounted(()=>{
 <template>
   <navbar />
   <main class="mx-auto mt-16">
-    <div
-      class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
-    >
-      <instagramItemCardVue 
-        v-for="(item, index) in (instagramItems as any)"
-        :key="item.id"
-        :item="item"
-        :index="index"
-        @show-image="handleShowLightBox"
-      />
+    <div class="relative w-full">
+      <button
+        @click="scroll('next')"
+        class="hidden sm:block absolute top-50% right-2 z-99 h-10 w-10 rounded-full bg-white border-none cursor-pointer">
+        <font-awesome-icon icon="angle-right" />
+      </button>
+      <button
+        @click="scroll('prev')"
+        class="hidden sm:block absolute top-50% left-2 z-99 h-10 w-10 rounded-full bg-white border-none cursor-pointer">
+        <font-awesome-icon icon="angle-left" />
+      </button>
+      <div
+        ref="snapScroller"
+        class="w-full flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
+      >
+        <instagramItemCardVue 
+          v-for="(item, index) in (instagramItems as any)"
+          :key="item.id"
+          :item="item"
+          :index="index"
+          @show-image="handleShowLightBox"
+        />
+      </div>
     </div>
+
     <vue-easy-lightbox
       :visible="showLightbox"
       :imgs="items"
