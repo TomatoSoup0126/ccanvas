@@ -9,6 +9,7 @@ let instagramItems = ref([])
 let lightboxIndex = ref(0)
 let showLightbox = ref(false)
 let lightboxLink = ref('')
+let lightboxTitle = ref('')
 const snapScroller = ref(null)
 
 interface item {
@@ -32,12 +33,14 @@ async function fetchInstagramData() {
   instagramItems.value.splice(instagramItems.value.length - 1, 1)
 }
 
-function handleShowLightBox({ index, youtubeLink }: {
+function handleShowLightBox({ index, youtubeLink, title }: {
     index: number;
     youtubeLink: string;
+    title: string;
 }): void {
   lightboxIndex.value = index
   lightboxLink.value = youtubeLink
+  lightboxTitle.value = title
   showLightbox.value = true
 }
 
@@ -99,6 +102,7 @@ onMounted(()=>{
       <template v-slot:next-btn="{ next }" />
       <template v-slot:toolbar="{ toolbarMethods }">
         <div class="absolute bottom-6 w-100%">
+          <p class="sm:hidden text-white">{{ lightboxTitle }}</p>
           <a
             class="w-12 h-12 mx-auto mt-auto text-white"
             :href="lightboxLink"

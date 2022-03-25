@@ -33,9 +33,9 @@ const varCss = computed(() => {
 
 <template>
   <div
-    class="w-70% sm:w-25% h-60vh sm:h-80vh rounded-md bg-cover bg-center bg-no-repeat snap-center shrink-0 relative bg-blur cursor-pointer"
+    class="w-70% sm:w-25% h-80vh rounded-md bg-cover bg-center bg-no-repeat snap-center shrink-0 relative bg-blur cursor-pointer"
     :style="varCss"
-    @click="$emit('showImage', { index, youtubeLink })"
+    @click="$emit('showImage', { index, youtubeLink, title })"
   >
     <div class="relative top-0 left-0 info-block flex-col justify-center text-white">
       <div class="px-2">
