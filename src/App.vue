@@ -11,6 +11,7 @@ let showLightbox = ref(false)
 let lightboxLink = ref('')
 let lightboxTitle = ref('')
 const snapScroller = ref(null)
+let isLoading = ref(true)
 
 interface item {
   media_url: string,
@@ -31,6 +32,7 @@ async function fetchInstagramData() {
   })
   instagramItems.value = data.data
   instagramItems.value.splice(instagramItems.value.length - 1, 1)
+  isLoading.value = false
 }
 
 function handleShowLightBox({ index, youtubeLink, title }: {
@@ -67,54 +69,55 @@ onMounted(()=>{
 <template>
   <navbar />
   <main class="mx-auto mt-16">
-    <div class="relative w-full flex">
-      <button
-        @click="scroll('next')"
-        class="hidden sm:block absolute top-50% right-2 z-99 h-10 w-10 rounded-full bg-white border-1 border-gray cursor-pointer">
-        <font-awesome-icon icon="angle-right" />
-      </button>
-      <button
-        @click="scroll('prev')"
-        class="hidden sm:block absolute top-50% left-2 z-99 h-10 w-10 rounded-full bg-white border-1 border-gray cursor-pointer">
-        <font-awesome-icon icon="angle-left" />
-      </button>
-      <div
-        ref="snapScroller"
-        class="w-full sm:w-90% mx-auto flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
-      >
-        <instagramItemCardVue 
-          v-for="(item, index) in (instagramItems as any)"
-          :key="item.id"
-          :item="item"
-          :index="index"
-          @show-image="handleShowLightBox"
-        />
-      </div>
-    </div>
-
-    <vue-easy-lightbox
-      :visible="showLightbox"
-      :imgs="items"
-      :index="lightboxIndex"
-      @hide="handleHideLightBox"
-    >
-      <template v-slot:prev-btn="{ prev }" />
-      <template v-slot:next-btn="{ next }" />
-      <template v-slot:toolbar="{ toolbarMethods }">
-        <div class="absolute bottom-6 w-100%">
-          <p class="sm:hidden text-white">{{ lightboxTitle }}</p>
-          <a
-            class="w-12 h-12 mx-auto mt-auto text-white"
-            :href="lightboxLink"
-            target="_blank"
-          >
-            <font-awesome-icon :icon="['fab', 'youtube']" size="2x" />
-          </a> 
+    <Transition name="fade">
+      <div class="relative w-full flex" v-if="!isLoading">
+        <button
+          @click="scroll('next')"
+          class="hidden sm:block absolute top-50% right-2 z-99 h-10 w-10 rounded-full bg-white border-1 border-gray cursor-pointer">
+          <font-awesome-icon icon="angle-right" />
+        </button>
+        <button
+          @click="scroll('prev')"
+          class="hidden sm:block absolute top-50% left-2 z-99 h-10 w-10 rounded-full bg-white border-1 border-gray cursor-pointer">
+          <font-awesome-icon icon="angle-left" />
+        </button>
+        <div
+          ref="snapScroller"
+          class="w-full sm:w-90% mx-auto flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
+        >
+          <instagramItemCardVue 
+            v-for="(item, index) in (instagramItems as any)"
+            :key="item.id"
+            :item="item"
+            :index="index"
+            @show-image="handleShowLightBox"
+          />
         </div>
-      </template>
-    </vue-easy-lightbox>
+      </div>
+    </Transition>
   </main>
-  <fixed-footer></fixed-footer>
+  <fixed-footer />
+  <vue-easy-lightbox
+    :visible="showLightbox"
+    :imgs="items"
+    :index="lightboxIndex"
+    @hide="handleHideLightBox"
+  >
+    <template v-slot:prev-btn="{ prev }" />
+    <template v-slot:next-btn="{ next }" />
+    <template v-slot:toolbar="{ toolbarMethods }">
+      <div class="absolute bottom-6 w-100%">
+        <p class="sm:hidden text-white">{{ lightboxTitle }}</p>
+        <a
+          class="w-12 h-12 mx-auto mt-auto text-white"
+          :href="lightboxLink"
+          target="_blank"
+        >
+          <font-awesome-icon :icon="['fab', 'youtube']" size="2x" />
+        </a> 
+      </div>
+    </template>
+  </vue-easy-lightbox>
 </template>
 
 <style>
@@ -132,5 +135,15 @@ onMounted(()=>{
 
 .vel-modal {
   background: rgba(0,0,0,0.8) !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
