@@ -104,7 +104,7 @@ onMounted(()=>{
         </button>
         <div
           ref="snapScroller"
-          class="w-full sm:w-90% mx-auto flex gap-6 snap-x snap-mandatory overflow-x-auto py-6 gallery"
+          class="w-full sm:w-90% mx-auto flex gap-6 snap-x snap-mandatory snap-always overflow-x-auto py-6 gallery"
         >
           <instagramItemCardVue 
             v-for="(item, index) in (instagramItems as any)"
