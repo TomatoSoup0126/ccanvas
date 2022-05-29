@@ -2,6 +2,7 @@
 import instagramItemCardVue from './components/instagramItemCard.vue';
 import navbar from './components/navbar.vue'
 import fixedFooter from './components/footer.vue'
+import { useLoading } from 'vue-loading-overlay'
 import axios from "axios"
 import { onMounted, ref, computed } from "vue"
 
@@ -12,6 +13,11 @@ let lightboxLink = ref('')
 let lightboxTitle = ref('')
 const snapScroller = ref(null)
 let isLoading = ref(true)
+const $loading = useLoading()
+interface loader {
+  hide: Function;
+}
+let loader:loader
 
 interface item {
   media_url: string,
@@ -23,6 +29,7 @@ const items = computed(() => {
 })
 
 async function fetchInstagramData() {
+  showLoading()
   const { data } = await axios({
     url: 'https://graph.instagram.com/me/media?&access_token',
     params: {
@@ -33,6 +40,7 @@ async function fetchInstagramData() {
   instagramItems.value = data.data
   instagramItems.value.splice(instagramItems.value.length - 1, 1)
   isLoading.value = false
+  hideLoading()
 }
 
 function handleShowLightBox({ index, youtubeLink, title }: {
@@ -58,6 +66,19 @@ function scroll (type:string):void {
     left: type === 'next' ? width : -width,
     behavior : "smooth"
   })
+}
+
+function showLoading() {
+  loader = $loading.show({
+    loader: 'dots',
+    color: '#1C48A8',
+    backgroundColor: 'black'
+  })
+  console.log('loader', typeof(loader))
+}
+
+function hideLoading() {
+  loader.hide()
 }
 
 onMounted(()=>{
